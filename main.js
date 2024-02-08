@@ -1,65 +1,63 @@
-
+import { products } from './array.js'
 const DOMselectors = {
-    img: document.querySelector(".itemimg"),
     container: document.querySelector(".container"),
     result: document.querySelector(".result"),
   }
-  
-  const URLk = `https://dummyjson.com/products`
+ // const correctanswer = products.price;
 
 function personsguess(){
     document.getElementById("submitting").addEventListener("submit", function (e) {
     e.preventDefault();
     const personguess = document.getElementById("priceright").value;
-    console.log(personguess)
-});
+    const guess = parseInt(personguess.value);
+    console.log(personguess);
+    for (let i = 0; i < products.length; i++) {
+      if (guess === products[i].price) {
+        return DOMselectors.result.textContent = "correct";
+      }
+      else if (guess > products[i].price){
+        return DOMselectors.result.textContent = "too high";
+      }
+      else {
+        return DOMselectors.result.textContent = "too low";
+      }
+    }
+    });
 } 
+/* let running = true
+while (running) {
+  if (personsguess == correctanswer) {
+        DOMselectors.result.textContent = "correct!"
+       } 
+    else if (personsguess > correctanswer) {
+           DOMselectors.result.textContent = `wrong! too high. the answer was $${item.price}`;
+       } 
+       else (personsguess < correctanswer) ;{
+        DOMselectors.result.textContent = `wrong! too low. the answer was $${item.price}`;
+       }
+}
+(running) = false  */
 
-function newimg(a){
-            DOMselectors.container.insertAdjacentHTML('beforebegin', `<div class="card">
-        <p class="itemimage"><img src="${a.thumbnail}" alt="${a.title}"></p>
-        </div>`)
-        };
-personsguess = Number(personsguess);
-  async function getData(){
-    try {
-        const response = await fetch(URLk);
-        if (response.status != 200) {
-            throw new Error (response.statusText);
-        }
-        const newcards = await response.json();
-        const correctanswer = newcards.price;
-   newimg(newcards)
-    
+for (var i = 1; i < 8; i++) {
+    var item = products.splice(Math.floor(Math.random() * (products.length)), 1)[0];
 
-    let running = true;
-    while (running){
-        function priceisright() {
-    if (personsguess == correctanswer) {
-     DOMselectors.result.textContent = "correct!"
-      newimg()
-    } else {
-        DOMselectors.result.textContent = "wrong!"
-        newimg()
+    var el = document.querySelector(".card");
+        el.innerHTML= "   " + `name: ${item.item}` + `<img class="itemimage" src="${item.img}" alt="">`;
+}
+document.addEventListener('change', e => e.target?.matches('item price') && validateAnswer());
+  
+    function priceGuess() {
+
+   for (let i = 0; i < products.length; i++) {
+      if (personsguess === products[i].price) {
+        return DOMselectors.result.textContent = "correct";
+      }
+      else if (personsguess > products[i].price){
+        return DOMselectors.result.textContent = "too high";
+      }
+      else {
+        return DOMselectors.result.textContent = "too low";
+      }
     }
-    running = false;
   }
-  
-    }
-  priceisright()
-  
-  return newcards;
-    } catch (error) {
-        console.log(error,"uh oh");
-    }
-}
-
-let amtcorrect = 0
-for(let i = 0; i < personsguess.length; i++){
-    if (personsguess[i] === 'correct!')
-    amtcorrect++
-    i++
-}
-    
-  getData(URLk)
-  newimg()
+  priceGuess()
